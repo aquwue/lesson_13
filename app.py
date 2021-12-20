@@ -29,6 +29,8 @@ def page_post_create():
 
     content = request.form.get("content")
     picture = request.files.get("picture")
+    if not content or not picture:
+        return render_template('post_form.html')
 
     path = f"{UPLOAD_FOLDER}/{picture.filename}"
     post = {

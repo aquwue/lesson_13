@@ -15,6 +15,7 @@ def page_index():
     return render_template('index.html', tags=get_tags(read_json(POST_PATH)))
 
 
+
 @app.route("/tag")
 def page_tag():
     tag_1 = request.args.get('tag')

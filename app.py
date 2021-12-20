@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, send_from_directory
+from flask import Flask, request, render_template, send_from_directory, url_for
 from functions import get_posts_by_tag, read_json, get_tags, add_post
 import json
 
@@ -30,17 +30,19 @@ def page_post_create():
 
     content = request.form.get("content")
     picture = request.files.get("picture")
+    if not content or not picture:
+        return render_template('post_form.html')
 
     path = f"{UPLOAD_FOLDER}/{picture.filename}"
     post = {
         'content': content,
-        'pic': f'/{path}'
+        'pic': url_for('static_dir', path=picture.filename)
     }
 
     picture.save(path)
-    add_post(POST_PATH, post)  
+    add_post(POST_PATH, post)
 
-    
+
     return render_template('post_uploaded.html', post=post)
 
 
